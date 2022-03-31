@@ -1,0 +1,196 @@
+
+from tkinter import *
+from tkinter import ttk
+import tkinter.messagebox
+import mysql.connector
+
+
+class ConnectorDB:
+    def __init__(self,root) :
+        self.root = root
+        titlespace = " "
+        self.root.title(102 * titlespace + "MYSQL Connector")
+        self.root.geometry("776x700+300+0")
+        self.root.resizable(width=False, height=False)
+
+        MainFrame = Frame(self.root, bd=10, width=770, height=700, relief=RIDGE, bg='cadet blue')
+        MainFrame.grid()
+        TitleFrame = Frame(MainFrame, bd=7, width=770, height=100, relief=RIDGE)
+        TitleFrame.grid(row=0, column=0)
+        TopFrame3 = Frame(MainFrame, bd=5, width=770, height=500, relief=RIDGE)
+        TopFrame3.grid(row=1, column=0)
+
+        LeftFrame = Frame(TopFrame3, bd=5, width=770, height=400, padx=2, bg="cadet blue", relief=RIDGE)
+        LeftFrame.pack(side=LEFT)
+        LeftFrame1 = Frame(LeftFrame, bd=5, width=600, height=180, padx=2, pady=4, relief=RIDGE)
+        LeftFrame1.pack(side=TOP)
+
+        RightFrame1 = Frame(TopFrame3, bd=5, width=100, height=400, padx=2, bg="cadet blue", relief=RIDGE)
+        RightFrame1.pack(side=RIGHT)
+        RightFrame1a = Frame(LeftFrame, bd=5, width=90, height=300, padx=2, pady=2, relief=RIDGE)
+        RightFrame1a.pack(side=TOP)
+
+        employeid = StringVar()
+        employe_name = StringVar()
+        DOB = StringVar()
+        Adress = StringVar()
+        phone_number = StringVar()
+
+    def iExit () :
+        iExit = tkinter.messagebox.askyesno("MYSQL Connection", "Confirm if you want to exit")
+        if iExit > 0:
+             root.destroy()
+             return
+
+
+    def Reset():
+        self.entemployeid.delete(0, END)
+        self.entemployename.delete(0, END)
+        self.entDOB.delete(0, END)
+        self.entadress.delete(0, END)
+        self.entphone_number.delete(0, END)
+
+
+    def addData():
+        if employeid.get() == "" or employe_name.get() == "" or DOB.get() == "" or adress.get() == "" or phone_number.get() == "":
+            tkinter.messagebox.showerror("MySql Connection", "Enter Correct Details")
+        else:
+            sqlCon = pymysql.connect(host="localhost", user="root", password="7288", database=
+        "trainee");
+            cur = sqlCon.cursor()
+            cur.execute("insert into trainee values (%s,%s,%s,%s,%s)")
+
+            employeid.get(),
+            employe_name.get(),
+            DOB.get(),
+            Adress.get(),
+            phone_number.get(),
+
+            sqlCon.commit()
+            sqlCon.close()
+            tkinter.messagebox.showinfo("MYSQL Connection", "Record Entered Successfully")
+
+
+    def DisplayData () :
+        sqlCon = pymysql.connect(host="localhost", user="root", password="7288", database=
+    "trainee");
+        cur = sqlCon.cursor()
+        cur.execute("select employe" )
+        result = cur.fetchall()
+        if len(result) != 0:
+            self.employe_records.delete(*self.employe_records.get_employe())
+        for row in result:
+            self.employe_records.insert('', END, values=row)
+        sqlCon.commit()
+        sqlCon.close()
+
+
+    def employeInfo(ev):
+        viewInfo = self.employe_records.item(viewInfo)
+        learnerData = self.employe_records.item(viewInfo)
+        row = learnerData['values']
+        employeid.set(row[0])
+        employe_name.set(row[1])
+        DOB.set(row[2])
+        adress.set(row[3])
+        phone_number.set(row[4])
+
+
+    def update():
+        sqlCon = pymysql.connect(host="localhost", user="root", password="7288", database="employe")
+        cur = sqlCon.cursor()
+        cur.execute("update ")
+
+        employeid.get(),
+        employe_name.get(),
+        DOB.get(),
+        Adress.get(),
+        phone_number.get(),
+
+        sqlCon.commit()
+        sqlCon.close()
+        tkinter.messagebox.showinfo("MYSQL Connection", "Record Entered Successfully")
+
+
+    def deleteDB() :
+        sqlCon = pymysql.connect(host="localhost", user="root", password="Suvi@123", database="employe")
+        cur = sqlCon.cursor()
+        cur.execute("delete from employe  where employeid=%s", employeid.get())
+
+        sqlCon.commit()
+        DisplayData()
+        sqlCon.close()
+        tkinter.messagebox.showinfo("Data Entry form", "Record  Successfully Deleted")
+
+
+        self.lbltitle = Label(TitleFrame, font=('arial', 12, 'bold'), text="MYSQL connection", bd=7)
+        self.lbltitle.grid(row=0, column=0, padx=132)
+
+        self.lblemployeid = Label(LeftFrame1, font=('arial', 12, 'bold'), text="employeid", bd=7)
+        self.lblemployeid.grid(row=0, column=0, sticky=w, padx=5)
+        self.lblemployeid = Label(LeftFrame1, font=('arial', 12, 'bold'), bd=5, width=44, justify='left',
+                          textvariable=employeid)
+        self.lblemployeid.grid(row=0, column=0, sticky=w, padx=5)
+
+        self.lblemploye_name = Label(LeftFrame1, font=('arial', 12, 'bold'), text="employe_name", bd=7)
+        self.lblemploye_name.grid(row=1, column=0, sticky=w, padx=5)
+        self.lblemploye_name = Label(LeftFrame1, font=('arial', 12, 'bold'), bd=5, width=44, justify='left',
+                             textvariable=employe_name)
+        self.lblemploye_name.grid(row=1, column=0, sticky=w, padx=5)
+
+        self.lblDOB = Label(LeftFrame1, font=('arial', 12, 'bold'), text="DOB", bd=7)
+        self.lblDOB.grid(row=2, column=0, sticky=w, padx=5)
+        self.lblDOB = Label(LeftFrame1, font=('arial', 12, 'bold'), bd=5, width=44, justify='left', textvariable=DOB)
+        self.lblDOB.grid(row=2, column=0, sticky=w, padx=5)
+
+        self.lbladress = Label(LeftFrame1, font=('arial', 12, 'bold'), text="adress", bd=7)
+        self.lbladress.grid(row=3, column=0, sticky=w, padx=5)
+        self.lbladress = Label(LeftFrame1, font=('arial', 12, 'bold'), bd=5, width=44, justify='left', textvariable=adress)
+        self.lbladress.grid(row=3, column=0, sticky=w, padx=5)
+
+        self.lblphone_number = Label(LeftFrame1, font=('arial', 12, 'bold'), text="phone_number", bd=7)
+        self.lblphone_number.grid(row=4, column=0, sticky=w, padx=5)
+        self.lblphone_number = Label(LeftFrame1, font=('arial', 12, 'bold'), bd=5, width=44, justify='left',
+                             textvariable=phone_number)
+        self.lblphone_number.grid(row=4, column=0, sticky=w, padx=5)
+
+        scroll_y = Scrollbar(LeftFrame, orient=VERTICAL)
+        self.employe_records = ttk.Treeview(LeftFrame, height=14,
+                                    columns=("employeid", "employe_name", "DOB", "adress", "phone_number"),
+                                    yscrollcommand=scroll_y.set)
+
+        scroll_y.pack(side=RIGHT, fill=Y)
+
+        self.employe_records.heading("employeid", text="employeid")
+        self.employe_records.heading("employeid", text="employe_name")
+        self.employe_records.heading("employeid", text="DOB")
+        self.employe_records.heading("employeid", text="adress")
+        self.employe_records.heading("employeid", text="phone_number")
+
+        self.employe_records.column("employeid", width=70)
+        self.employe_records.column("employe_name", width=100)
+        self.employe_records.column("DOB", width=100)
+        self.employe_records.column("adress", width=70)
+        self.employe_records.column("phone_number", width=70)
+
+        self.employe_records.pack(fill=BOTH, expand=1)
+        self.employe_records.bind("<ButtonRelease-1>", employeInfo)
+    # DisplayData()
+
+
+        self.btnDisplay = Button(RightFrame1a, font=('arial', 16, 'bold'), text='Display', bd=4, pady=1, padx=24, width=8,
+                         height=2, command=DisplayData).grid(row=0, column=0, padx=1)
+        self.btnAddNew = Button(RightFrame1a, font=('arial', 16, 'bold'), text='Addnew', bd=4, pady=1, padx=24, width=8,
+                        height=2, command=addData).grid(row=1, column=0, padx=1)
+        self.btnDelete = Button(RightFrame1a, font=('arial', 16, 'bold'), text='Delete', bd=4, pady=1, padx=24, width=8,
+                        height=2, command=delete).grid(row=2, column=0, padx=1)
+        self.btnupdate = Button(RightFrame1a, font=('arial', 16, 'bold'), text='update', bd=4, pady=1, padx=24, width=8,
+                        height=2, command=update).grid(row=3, column=0, padx=1)
+        self.btnExit = Button(RightFrame1a, font=('arial', 16, 'bold'), text='Exit', bd=4, pady=1, padx=24, width=8, height=2,
+
+                      command=iExit).grid(row=0, column=0, padx=1)
+
+    if __name__ == '__main__':
+        root = Tk()
+        application = ConnectorDB(root)
+        root.mainloop()
